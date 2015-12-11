@@ -48,7 +48,7 @@ A blank line is a line containing zero or more whitespaces only. It is ignored.
 
 A comment line begins with C<#> as it's first nonblank character.
 
- <ws>* |"#" <COMMENT>
+ <ws>* "#" <COMMENT>
 
 Examples:
 
