@@ -22,11 +22,19 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 interpreted as described in RFC 2119.
 
 
+=head1 RATIONALE
+
+Apachish is the configuration format to complement L<IOD> and is meant for
+configuration that needs to be nested. The main goal, like C<IOD>, is to make it
+easy to have a round-trip parser/writer for it. That way, the configuration can
+be written/modified by software without destroying formatting/comments.
+
+
 =head1 SPECIFICATION
 
 A configuration is a text file containing a sequence of lines. Encoding MUST be
-UTF-8. Each line is either a blank line, a comment line, a directive line,
-context start line, or context end line. Parsing is done line-by-line and in a
+UTF-8. Each line is either a blank line, a comment line, a directive line, open
+context line, or close context line. Parsing is done line-by-line and in a
 single pass.
 
 A context surrounds directives and can also contain subcontext in a tree-like
@@ -48,7 +56,7 @@ Examples:
 
 =head2 Directive line
 
- <ws>* <NAME> (<ws>+ <ARGUMENT>)*
+ <ws>* <NAME> (<ws>+ <ARGUMENT>)+
 
 C<NAME> can only contain alphanumeric (A-Z, a-z, 0-9) characters or underscores.
 Arguments is a sequence of one or more non-whitespace characters except double
@@ -69,7 +77,7 @@ Examples:
 Directives in configuration are case-insensitive, but the arguments are
 case-sensitive.
 
-=head2 Context start line
+=head2 Open context line
 
  <ws>* "<" <NAME> (<ws>+ <ARGUMENT>)* ">"
 
@@ -85,7 +93,7 @@ Examples:
 
 Context names are case-insensitive, but its arguments are case-sensitive.
 
-=head2 Context end line
+=head2 Close context line
 
  <ws>* "</" <NAME> ">"
 
